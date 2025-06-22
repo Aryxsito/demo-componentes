@@ -146,20 +146,16 @@ const PostItNote = ({ note, onDeleteNote }) => {
 
 // Componente principal de la aplicación
 const PostItSimulator = () => {
-  const [notes, setNotes] = useState([]);
-
-  // Cargar notas desde localStorage al iniciar
-  useEffect(() => {
-    const savedNotes = localStorage.getItem('postItNotes');
-    console.log(savedNotes)
-    if (savedNotes) {
-      try {
-        setNotes(JSON.parse(savedNotes));
-      } catch (error) {
-        console.error('Error al cargar las notas:', error);
-      }
+  // Inicializar el estado con las notas guardadas en localStorage
+  const [notes, setNotes] = useState(() => {
+    try {
+      const savedNotes = localStorage.getItem('postItNotes');
+      return savedNotes ? JSON.parse(savedNotes) : [];
+    } catch (error) {
+      console.error('Error al cargar las notas:', error);
+      return [];
     }
-  }, []);
+  });
 
   // Guardar notas en localStorage cuando cambie el estado
   useEffect(() => {
